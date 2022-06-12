@@ -34,23 +34,22 @@ SERVICE_MENU() {
       # ask for phone number to look up customer
       echo -e "\nWhat is your phone number?"
       read CUSTOMER_PHONE
-      RECEIVED_PHONE=$CUSTOMER_PHONE
 
       # see if number exists
-      CUSTOMER_PHONE=$($PSQL "SELECT phone FROM customers WHERE phone ='$RECEIVED_PHONE'")
+      CUSTOMER_PHONE_LOOK_UP=$($PSQL "SELECT phone FROM customers WHERE phone ='$CUSTOMER_PHONE'")
 
-      if [[ -z $CUSTOMER_PHONE ]]
+      if [[ -z $CUSTOMER_PHONE_LOOK_UP ]]
       then
         echo -e "\nSorry, we do not have a record of you, what is your name?"
         read CUSTOMER_NAME
 
         # insert customer_name, customer_phone
-        INSERT_CUSTOMER=$($PSQL "INSERT INTO customers(name, phone) VALUES('$CUSTOMER_NAME', '$RECEIVED_PHONE')")
+        INSERT_CUSTOMER=$($PSQL "INSERT INTO customers(name, phone) VALUES('$CUSTOMER_NAME', '$CUSTOMER_PHONE')")
         # set CUSTOMER_PHONE
       fi
 
       # Retrieve customer_id, name and phone from select statement
-      read -r CUSTOMER_ID BAR CUSTOMER_NAME BAR CUSTOMER_PHONE <<<$(echo $($PSQL "SELECT customer_id, name, phone FROM customers WHERE phone='$RECEIVED_PHONE'"))
+      read -r CUSTOMER_ID BAR CUSTOMER_NAME BAR CUSTOMER_PHONE <<<$(echo $($PSQL "SELECT customer_id, name, phone FROM customers WHERE phone='$CUSTOMER_PHONE'"))
       # info that exists in customers
       # echo "$CUSTOMER_ID $CUSTOMER_NAME $CUSTOMER_PHONE"
       
