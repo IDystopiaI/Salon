@@ -14,17 +14,17 @@ SERVICE_MENU() {
   fi
   echo -e "Hello, how can I help you?"
   echo -e "\n1) Cut\n2) Dye\n3) Style \n4) Trim"
-  read SERVICE_ID
+  read SERVICE_ID_SELECTED
 
   # Looks up input for service id and assigns it matching service_id from services
   
-  SERVICE_ID_SELECTED=$($PSQL "SELECT service_id FROM services where service_id = '$SERVICE_ID'")
-  # echo $SERVICE_ID_SELECTED
+  SERVICE_ID=$($PSQL "SELECT service_id FROM services where service_id = '$SERVICE_ID_SELECTED'")
+  # echo $SERVICE_ID
   # fetch service name and strip white space
   SERVICE_NAME=$($PSQL "SELECT name from services WHERE service_id = '$SERVICE_ID'" | sed -E 's/^ *| *$//g')
 
   # if invalid input
-    if [[ -z $SERVICE_ID_SELECTED ]]
+    if [[ -z $SERVICE_ID ]]
     then
       # send back to service menu with message
       SERVICE_MENU "Sorry, we do not offer that here.\nPlease select a number that corresponds to a service you would like to book.\n"
@@ -33,7 +33,8 @@ SERVICE_MENU() {
       # SERVICE_ID_SELECTED exists
       # ask for phone number to look up customer
       echo -e "\nWhat is your phone number?"
-      read RECEIVED_PHONE
+      read CUSTOMER_PHONE
+      RECEIVED_PHONE=$CUSTOMER_PHONE
 
       # see if number exists
       CUSTOMER_PHONE=$($PSQL "SELECT phone FROM customers WHERE phone ='$RECEIVED_PHONE'")
