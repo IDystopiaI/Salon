@@ -1,7 +1,0 @@
-create dump
-pg_dump -cC --inserts -U freecodecamp salon > salon.sql
-
-recreate db from dump
-psql -U postgres < salon.sql
-
-psql --username=freecodecamp --dbname=salon
