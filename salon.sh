@@ -54,13 +54,13 @@ SERVICE_MENU() {
       # echo "$CUSTOMER_ID $CUSTOMER_NAME $CUSTOMER_PHONE"
       
       # ask what time they would like to book their $SERVICE_NAME
-      echo -e "What time would you like to book your $SERVICE_NAME, $CUSTOMER_NAME?"
+      echo -e "\nWhat time would you like to book your $SERVICE_NAME, $CUSTOMER_NAME?"
       read SERVICE_TIME
 
       # insert
       APPOINTMENT_RESPONSE=$($PSQL "INSERT INTO appointments(customer_id, service_id, time) VALUES('$CUSTOMER_ID', '$SERVICE_ID', '$SERVICE_TIME')")
       # echo "$APPOINTMENT_RESPONSE"
-      echo "I have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
+      echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 
   fi
 }
